@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 VHI_data
 add VHI
 VHI
+=======
+__pycache__/
+*.pyc
+.env
+.venv/
+.ipynb_checkpoints/
+>>>>>>> 912f43248be544bdef4e3dade05445eed2c8541e
 
