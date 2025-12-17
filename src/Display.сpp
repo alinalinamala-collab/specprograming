@@ -2,8 +2,10 @@
 
 Display::Display() {
     name = "Lab 4 - AI Face & Gender";
-    // Створюємо просте вікно без слайдерів
+    // Створюємо вікно
     cv::namedWindow(name, cv::WINDOW_AUTOSIZE);
+
+    // Рядок cv::createTrackbar видалено - слайдера більше не буде
 }
 
 Display::~Display() {
