@@ -1,3 +1,23 @@
 build/
-vscode
-build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+*.a
+*.o
+*.out
+app
+Lab4App
+
+# Ігнорування файлів нейромереж (вони важкі)
+*.caffemodel
+*.prototxt
+*.weights
+*.onnx
+
+# Налаштування редакторів
+.vscode/
+.idea/
+*.swp
+*~
