@@ -1,97 +1,118 @@
 #include "FaceDetector.hpp"
 #include <iostream>
 
-FaceDetector::FaceDetector() : isRunning(true), newFrameAvailable(false) {
-    // Завантажуємо обидві нейромережі
-    faceNet = cv::dnn::readNetFromCaffe("deploy.prototxt", "res10_300x300_ssd_iter_140000.caffemodel");
-    genderNet = cv::dnn::readNetFromCaffe("gender_deploy.prototxt", "gender_net.caffemodel");
+FaceDetector::FaceDetector() : running(true), hasNewFrame(false) {
+    // Завантаження мереж
+    faceNet = cv::dnn::readNetFromCaffe(
+        "deploy.prototxt", 
+        "res10_300x300_ssd_iter_140000.caffemodel"
+    );
+    
+    genderNet = cv::dnn::readNetFromCaffe(
+        "gender_deploy.prototxt", 
+        "gender_net.caffemodel"
+    );
 
-    if (faceNet.empty() || genderNet.empty()) {
-        std::cerr << "Увага: Не знайдено моделі! Запустіть ./preinstall.sh" << std::endl;
-    }
-
-    workerThread = std::thread(&FaceDetector::workerLoop, this);
+    // Запуск фонового потоку
+    worker = std::thread(&FaceDetector::loop, this);
 }
 
 FaceDetector::~FaceDetector() {
-    isRunning = false;
-    if (workerThread.joinable()) workerThread.join();
+    running = false;
+    condition.notify_one(); // Розбудити потік, щоб він міг завершитись
+    if (worker.joinable()) {
+        worker.join();
+    }
 }
 
 void FaceDetector::updateFrame(const cv::Mat& frame) {
-    std::lock_guard<std::mutex> lock(dataMutex);
-    currentFrame = frame.clone();
-    newFrameAvailable = true;
+    // Швидко копіюємо кадр під захистом
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        frame.copyTo(currentFrame);
+        hasNewFrame = true;
+    }
+    condition.notify_one(); // Кажемо потоку: "Є робота!"
 }
 
 std::vector<FaceInfo> FaceDetector::getResults() {
-    std::lock_guard<std::mutex> lock(dataMutex);
-    return detectedResults;
+    // Швидко віддаємо останні відомі результати
+    std::lock_guard<std::mutex> lock(mtx);
+    return results;
 }
 
-void FaceDetector::workerLoop() {
-    // Середні значення кольорів для навчання цієї моделі
-    const cv::Scalar meanVal(78.4263377603, 87.7689143744, 114.895847746);
-
-    while (isRunning) {
-        cv::Mat frameToProcess;
+void FaceDetector::loop() {
+    cv::Mat frameToProcess;
+    
+    while (running) {
+        // 1. ЧЕКАННЯ І КОПІЮВАННЯ (Дуже швидко)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-            if (!newFrameAvailable) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
-                continue;
-            }
+            std::unique_lock<std::mutex> lock(mtx);
+            condition.wait(lock, [this]{ return hasNewFrame || !running; });
+            
+            if (!running) break;
+            
+            // Копіюємо кадр у локальну змінну і відразу звільняємо м'ютекс!
             frameToProcess = currentFrame.clone();
-            newFrameAvailable = false;
-        }
+            hasNewFrame = false;
+        } 
+        // ТУТ М'ЮТЕКС ВЖЕ РОЗБЛОКОВАНО!
+        // Main Thread може спокійно малювати інтерфейс.
 
-        if (frameToProcess.empty()) continue;
+        // 2. ВАЖКІ ОБЧИСЛЕННЯ (Довго)
+        std::vector<FaceInfo> currentFaces = detect(frameToProcess);
 
-        // 1. Шукаємо обличчя
-        cv::Mat blob = cv::dnn::blobFromImage(frameToProcess, 1.0, cv::Size(300, 300), cv::Scalar(104, 177, 123));
-        faceNet.setInput(blob);
-        cv::Mat detections = faceNet.forward();
-
-        std::vector<FaceInfo> tempResults;
-        cv::Mat detectionMat(detections.size[2], detections.size[3], CV_32F, detections.ptr<float>());
-
-        for (int i = 0; i < detectionMat.rows; i++) {
-            float confidence = detectionMat.at<float>(i, 2);
-            if (confidence > 0.6) { // Поріг впевненості 60%
-                int x1 = static_cast<int>(detectionMat.at<float>(i, 3) * frameToProcess.cols);
-                int y1 = static_cast<int>(detectionMat.at<float>(i, 4) * frameToProcess.rows);
-                int x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frameToProcess.cols);
-                int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frameToProcess.rows);
-
-                cv::Rect faceRect(cv::Point(x1, y1), cv::Point(x2, y2));
-                // Захист від виходу за межі кадру
-                faceRect = faceRect & cv::Rect(0, 0, frameToProcess.cols, frameToProcess.rows);
-
-                // Якщо обличчя надто мале - ігноруємо
-                if (faceRect.width < 10 || faceRect.height < 10) continue;
-
-                // 2. Визначаємо стать
-                cv::Mat faceROI = frameToProcess(faceRect); // Вирізаємо обличчя
-                cv::Mat genderBlob = cv::dnn::blobFromImage(faceROI, 1.0, cv::Size(227, 227), meanVal, false);
-
-                genderNet.setInput(genderBlob);
-                cv::Mat genderPreds = genderNet.forward();
-
-                // 0 = Male, 1 = Female
-                float maleProb = genderPreds.at<float>(0, 0);
-                float femaleProb = genderPreds.at<float>(0, 1);
-
-                std::string label = (maleProb > femaleProb) ? "Man" : "Woman";
-
-                // Додаємо структуру в список
-                tempResults.push_back({faceRect, label});
-            }
-        }
-
-        // Зберігаємо результати
+        // 3. ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ (Дуже швидко)
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-            detectedResults = tempResults;
+            std::lock_guard<std::mutex> lock(mtx);
+            results = currentFaces;
         }
     }
+}
+
+std::vector<FaceInfo> FaceDetector::detect(cv::Mat& img) {
+    std::vector<FaceInfo> faces;
+    if (img.empty()) return faces;
+
+    // --- Face Detection ---
+    cv::Mat blob = cv::dnn::blobFromImage(img, 1.0, cv::Size(300, 300), cv::Scalar(104, 177, 123));
+    faceNet.setInput(blob);
+    cv::Mat detection = faceNet.forward();
+
+    cv::Mat detectionMat(detection.size[2], detection.size[3], CV_32F, detection.ptr<float>());
+
+    for (int i = 0; i < detectionMat.rows; i++) {
+        float confidence = detectionMat.at<float>(i, 2);
+
+        if (confidence > 0.5) {
+            int x1 = static_cast<int>(detectionMat.at<float>(i, 3) * img.cols);
+            int y1 = static_cast<int>(detectionMat.at<float>(i, 4) * img.rows);
+            int x2 = static_cast<int>(detectionMat.at<float>(i, 5) * img.cols);
+            int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * img.rows);
+
+            // Перевірка меж
+            x1 = std::max(0, x1); y1 = std::max(0, y1);
+            x2 = std::min(img.cols - 1, x2); y2 = std::min(img.rows - 1, y2);
+            
+            cv::Rect box(x1, y1, x2 - x1, y2 - y1);
+            
+            // --- Gender Detection ---
+            // Вирізаємо обличчя
+            cv::Mat faceROI = img(box);
+            if (faceROI.empty()) continue;
+
+            cv::Mat genderBlob = cv::dnn::blobFromImage(faceROI, 1.0, cv::Size(227, 227), 
+                                                      cv::Scalar(78.4263377603, 87.7689143744, 114.895847746), 
+                                                      false);
+            genderNet.setInput(genderBlob);
+            cv::Mat genderPreds = genderNet.forward();
+            
+            float maleConf = genderPreds.at<float>(0, 0);
+            float femaleConf = genderPreds.at<float>(0, 1);
+            
+            std::string label = (maleConf > femaleConf) ? "Male" : "Female";
+            faces.push_back({box, label});
+        }
+    }
+    return faces;
 }
