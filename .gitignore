@@ -1,3 +1,4 @@
+# --- C++ та компіляція ---
 build/
 CMakeCache.txt
 CMakeFiles/
@@ -10,14 +11,16 @@ Makefile
 app
 Lab4App
 
-# Ігнорування файлів нейромереж (вони важкі)
+
+# --- Нейромережі (важкі файли) ---
 *.caffemodel
 *.prototxt
 *.weights
 *.onnx
 
-# Налаштування редакторів
+# --- Налаштування редакторів та системи ---
 .vscode/
 .idea/
 *.swp
 *~
+.DS_Store
