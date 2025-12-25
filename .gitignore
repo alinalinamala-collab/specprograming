@@ -1,6 +1,57 @@
+lab4
+# --- C++ та компіляція ---
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+*.a
+*.o
+*.out
+app
+Lab4App
+
+
+# --- Нейромережі (важкі файли) ---
+*.caffemodel
+*.prototxt
+*.weights
+*.onnx
+
+# --- Налаштування редакторів та системи ---
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+
+lab1.2
+HEAD
+
+lab1
+main
+VHI_data
+add VHI
+VHI
+
+main
 __pycache__/
 *.pyc
 .env
 .venv/
 .ipynb_checkpoints/
+lab4
+
+lab3
+*.py[cod]
+
+lab1.2
+household_power_consumption_converted.*
+household_power_consumption
+
+
+main
+>main
 
