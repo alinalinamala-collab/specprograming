@@ -1,19 +1,19 @@
+
 #!/bin/bash
-lab4
-APP_PATH="./build/Lab4App"
 
-if [ -f "$APP_PATH" ]; then
-    echo "Запуск Lab4App..."
-    $APP_PATH
-else
-    echo "Помилка: Файл $APP_PATH не знайдено!"
-    echo "Ось що є в папці build:"
-    ls ./build/
-    echo "Спробуйте запустити ./build.sh ще раз і перевірте помилки."
+# Назва вашого виконуваного файлу (як вказано в CMakeLists.txt)
+APP_NAME="Lab4App"
 
-if [ -f "./build/Lab3Simple" ]; then
-    ./build/Lab3Simple
+# Перевіряємо, чи існує файл після компіляції
+if [ -f "./build/$APP_NAME" ]; then
+    echo "Запуск програми $APP_NAME..."
+    
+    # Запускаємо програму з папки build
+    # Якщо моделі лежать у корені, програма їх знайде, 
+    # якщо в коді прописані правильні шляхи.
+    ./build/$APP_NAME
 else
-    echo "Спочатку запустіть ./build.sh"
-main
+    echo "Помилка: Виконуваний файл не знайдено в папці build."
+    echo "Спробуйте спочатку запустити ./build.sh"
+    exit 1
 fi
