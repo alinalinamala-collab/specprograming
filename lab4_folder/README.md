@@ -38,5 +38,4 @@ cat > README.md << 'EOF'
 <pre>
   Клавіша                Дія
 F                 Включення AI режиму
-</pre>
 </pre> 
