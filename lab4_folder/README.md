@@ -40,5 +40,3 @@ cat > README.md << 'EOF'
 F                 Включення AI режиму
 </pre>
 </pre> 
-=======
-main
