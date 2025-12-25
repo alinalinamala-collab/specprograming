@@ -1,4 +1,8 @@
+lab1.2
+HEAD
+=======
 lab1
+main
 VHI_data
 add VHI
 VHI
@@ -8,5 +12,11 @@ __pycache__/
 .env
 .venv/
 .ipynb_checkpoints/
+lab1.2
+household_power_consumption_converted.*
+household_power_consumption
+
+=======
 main
+>main
 
