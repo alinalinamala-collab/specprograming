@@ -1,6 +1,12 @@
+lab1
+VHI_data
+add VHI
+VHI
+=======
 __pycache__/
 *.pyc
 .env
 .venv/
 .ipynb_checkpoints/
+main
 
