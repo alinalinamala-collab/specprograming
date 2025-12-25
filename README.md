@@ -1,3 +1,4 @@
+lab1
 # specprograming
 ### 🌟 Welcome to the VHI Data Analysis Lab 🌟
 
@@ -88,3 +89,28 @@ We're excited to see what you discover with this data! Happy analyzing, and don�
 Have fun, learn, and stay curious!
 
 This template gives a welcoming and friendly vibe, emphasizing the collaborative and exploratory nature of your lab. You can always modify sections to fit your specific lab context or add more details on methodology or the data. 😊
+=======
+# 📘 Спеціальні розділи програмування (Special Programming Sections)
+
+Цей репозиторій містить лабораторні роботи з курсу "Спеціальні розділи програмування". Основний фокус робіт — мова **C++**,**Python**, бібліотека комп'ютерного зору **OpenCV**, багатопотокове програмування та робота з нейромережами.
+
+👤 **Автор:** [Мала Аліна Віталівна]  
+🎓 **Група:** [ФІ-41]
+
+---
+
+## 🛠 Технологічний стек
+* **Мова:** C++ (Standard 17), Python(3.13)
+* **Бібліотеки:** OpenCV 4.x (Core, HighGUI, DNN, ImgProc)
+* **Архітектура:** Multithreading (std::thread, std::mutex, std::atomic), OOP.
+
+---
+
+
+## 🚀 Як запустити проект
+
+Для запуску лабораторних робіт використовуються автоматизовані скрипти.
+
+**Клонування репозиторію:**
+git clone https://github.com/alinalinamala-collab/specprograming.git
+main
