@@ -1,4 +1,5 @@
 #!/bin/bash
+lab4
 echo "Встановлення бібліотек..."
 sudo apt update
 sudo apt install libopencv-dev cmake g++ build-essential wget -y
@@ -16,3 +17,7 @@ wget -O gender_deploy.prototxt https://raw.githubusercontent.com/smahesh29/Gende
 wget -O gender_net.caffemodel https://github.com/smahesh29/Gender-and-Age-Detection/raw/master/gender_net.caffemodel
 
 echo "Готово! Усі файли завантажено."
+
+sudo apt update
+sudo apt install libopencv-dev cmake g++ build-essential -y
+main
