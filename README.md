@@ -39,8 +39,7 @@ lab-X branches: Development branches for individual assignments.
 </pre> 
 =======
 
-#lab1
-# specprograming
+# lab1
 ### 🌟 Welcome to the VHI Data Analysis Lab 🌟
 
 Welcome to the VHI Data Analysis Lab, where we dive into fascinating environmental data to explore, analyze, and visualize vegetation health! 🌱📊
