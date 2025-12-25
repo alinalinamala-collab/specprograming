@@ -1,3 +1,45 @@
+# 📘 Спеціальні розділи програмування (Special Programming Sections)
+
+This repository contains laboratory works completed for the "Advanced Programming Techniques" course. The primary focus is on C++ and Python development, leveraging the OpenCV library, multithreaded programming, and neural networks.
+
+👤 **Author:** [Alina Mala]  
+🎓 **Group:** [FI-41]
+
+### 📬 Contact
+
+Got any questions or suggestions? Reach out to us at [alimala-ipt28@lll.kpi.ua].
+
+---
+
+## 🛠 Tech Stack
+ - Languages: C++ (Standard 17), Python (3.13)
+
+ - Libraries: OpenCV 4.x (Core, HighGUI, DNN, ImgProc)
+
+ - Concepts: Multithreading (std::thread, std::mutex, std::atomic), OOP, Asynchronous Processing.
+---
+
+
+## 🚀 Getting Started
+
+Follow these steps to set up the project locally.
+
+*Cloning the Repository:**
+<pre> 
+git clone https://github.com/alinalinamala-collab/specprograming.git
+cd specprograming
+</pre>
+
+For specific laboratory work instructions, please navigate to the corresponding branch or folder.
+
+📂 Repository Structure
+<pre> 
+main branch: Final stable versions of all laboratory works.
+lab-X branches: Development branches for individual assignments.
+</pre> 
+=======
+
+#lab1
 # specprograming
 ### 🌟 Welcome to the VHI Data Analysis Lab 🌟
 
@@ -25,9 +67,9 @@ cd lab1-vhi-data-analysis
 ##### 2. Install the Requirements
 
 Make sure you have the necessary libraries installed. You can do this by running:
-
+<pre> 
 pip install -r requirements.txt
-
+</pre> 
 ##### 3. Run the Scripts
 Once everything is set up, you can run the data processing script. The main script is located in process_data.py, and it's designed to clean and process all the .txt files in the VHI_data folder.
 
@@ -38,7 +80,7 @@ This will read the raw data, process it, and output a final dataset with all the
 ### 🐍 Python Dependencies
 
 ##### We use the following Python libraries in this project:
-
+<pre> 
 Pandas - (for data manipulation) 🐼
 
 Glob - (for file path management) 🔍
@@ -50,6 +92,7 @@ StringIO - (for handling data as strings) 📝
 Install them all at once by running:
 
 pip install pandas
+</pre>
 
 ### 📊 What You Can Do
 
@@ -63,22 +106,15 @@ Contribute: Feel free to fork this repo, make changes, and submit a pull request
 
 This project is open to contributions! Feel free to:
 
-Report bugs
+- Report bugs
 
-Suggest new features
+- Suggest new features
 
-Improve the documentation
+- Improve the documentation
 
 To contribute, fork this repository, make your changes, and open a pull request. We’ll review it as soon as we can!
 
-### 📬 Contact
-
-Got any questions or suggestions? Reach out to us at [your-email@example.com
-].
-
 ### 🎉 Acknowledgements
-
-Special thanks to the amazing contributors and the open-source community for their continuous support! 💖
 
 This work is a part of the Lab 1 project for the VHI Data Analysis course. 🎓
 
@@ -88,3 +124,5 @@ We're excited to see what you discover with this data! Happy analyzing, and don�
 Have fun, learn, and stay curious!
 
 This template gives a welcoming and friendly vibe, emphasizing the collaborative and exploratory nature of your lab. You can always modify sections to fit your specific lab context or add more details on methodology or the data. 😊
+
+
