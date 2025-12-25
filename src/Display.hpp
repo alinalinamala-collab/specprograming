@@ -1,5 +1,16 @@
 #pragma once
 #include <opencv2/opencv.hpp>
+lab4
+#include <string>
+
+class Display {
+public:
+    std::string name;
+
+    Display();
+    ~Display();
+
+    void showFrame(const cv::Mat& img);
 #include <vector>
 #include <string>
 
@@ -32,4 +43,5 @@ public:
     static void clearShapes();
 
     static void onMouse(int event, int x, int y, int flags, void* userdata);
+main
 };

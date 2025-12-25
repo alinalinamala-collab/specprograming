@@ -1,0 +1,19 @@
+#include "Display.hpp"
+
+Display::Display() {
+    name = "Lab 4 - AI Face & Gender";
+    // Створюємо вікно
+    cv::namedWindow(name, cv::WINDOW_AUTOSIZE);
+
+    // Рядок cv::createTrackbar видалено - слайдера більше не буде
+}
+
+Display::~Display() {
+    cv::destroyWindow(name);
+}
+
+void Display::showFrame(const cv::Mat& img) {
+    if (!img.empty()) {
+        cv::imshow(name, img);
+    }
+}

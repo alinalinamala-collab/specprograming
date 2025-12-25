@@ -1,4 +1,20 @@
 #include "Display.hpp"
+lab4
+
+Display::Display() {
+    name = "Lab 4 - AI Face & Gender";
+    // Створюємо просте вікно без слайдерів
+    cv::namedWindow(name, cv::WINDOW_AUTOSIZE);
+}
+
+Display::~Display() {
+    cv::destroyWindow(name);
+}
+
+void Display::showFrame(const cv::Mat& img) {
+    if (!img.empty()) {
+        cv::imshow(name, img);
+
 #include <iostream>
 
 int Display::sliderValue = 50;
@@ -60,5 +76,6 @@ void Display::onMouse(int event, int x, int y, int flags, void* userdata) {
         currentPoint = cv::Point(x, y);
         // Зберігаємо фігуру
         shapes.push_back({drawMode, startPoint, currentPoint});
+main
     }
 }
