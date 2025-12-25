@@ -1,25 +1,36 @@
 # 📘 Спеціальні розділи програмування (Special Programming Sections)
 
-Цей репозиторій містить лабораторні роботи з курсу "Спеціальні розділи програмування". Основний фокус робіт — мова **C++**,**Python**, бібліотека комп'ютерного зору **OpenCV**, багатопотокове програмування та робота з нейромережами.
+This repository contains laboratory works completed for the "Advanced Programming Techniques" course. The primary focus is on C++ and Python development, leveraging the OpenCV library, multithreaded programming, and neural networks.
 
-👤 **Автор:** [Мала Аліна Віталівна]  
-🎓 **Група:** [ФІ-41]
+👤 **Author:** [Alina Mala]  
+🎓 **Group:** [FI-41]
 
----
+### 📬 Contact
 
-## 🛠 Технологічний стек
-* **Мова:** C++ (Standard 17), Python(3.13)
-* **Бібліотеки:** OpenCV 4.x (Core, HighGUI, DNN, ImgProc)
-* **Архітектура:** Multithreading (std::thread, std::mutex, std::atomic), OOP.
+Got any questions or suggestions? Reach out to us at [alimala-ipt28@lll.kpi.ua].
 
 ---
 
+## 🛠 Tech Stack
+ - Languages: C++ (Standard 17), Python (3.13)
+
+ - Libraries: OpenCV 4.x (Core, HighGUI, DNN, ImgProc)
+
+ - Concepts: Multithreading (std::thread, std::mutex, std::atomic), OOP, Asynchronous Processing.
+---
+
+lab3
 ## 🚀 Як запустити проект
 
-Для запуску лабораторних робіт використовуються автоматизовані скрипти.
 
-**Клонування репозиторію:**
+## 🚀 Getting Started
+
+Follow these steps to set up the project locally.
+
+*Cloning the Repository:**
+<pre> 
 git clone https://github.com/alinalinamala-collab/specprograming.git
+lab3
 
 ---
 
@@ -92,3 +103,16 @@ C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 - Для Threshold: змінює поріг спрацювання.
 - Для Blur: змінює силу розмиття.
 - Для Canny: змінює чутливість детектора.
+=======
+cd specprograming
+</pre>
+
+For specific laboratory work instructions, please navigate to the corresponding branch or folder.
+
+📂 Repository Structure
+<pre> 
+main branch: Final stable versions of all laboratory works.
+lab-X branches: Development branches for individual assignments.
+</pre> 
+=======
+main

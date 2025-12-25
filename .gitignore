@@ -1,6 +1,26 @@
+lab1.2
+HEAD
+=======
+lab1
+main
+VHI_data
+add VHI
+VHI
+=======
 __pycache__/
 *.pyc
 .env
 .venv/
 .ipynb_checkpoints/
+lab3
 *.py[cod]
+=======
+lab1.2
+household_power_consumption_converted.*
+household_power_consumption
+
+=======
+main
+>main
+
+main
